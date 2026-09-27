@@ -123,7 +123,32 @@
 .button-arrow { transition: transform .25s ease; }
 button:hover .button-arrow, a:hover .button-arrow { transform: translate(3px, -3px); }
 .project-art { transition: transform .55s cubic-bezier(.22,1,.36,1), filter .55s ease; }
-.project-card:hover .project-art { transform: scale(1.035); filter: saturate(1.08); }
+.project-story { position: relative; border-top: 1px solid var(--line); padding: 76px 0 88px; }
+.project-story:last-child { border-bottom: 1px solid var(--line); }
+.project-story-split, .project-story-reverse { display: flex; align-items: center; gap: clamp(2rem, 8vw, 9rem); }
+.project-story-reverse { flex-direction: row-reverse; }
+.project-story-visual { flex: 1.15 1 0; min-width: 0; }
+.project-story-copy { flex: .85 1 0; min-width: 260px; }
+.project-story-wide .project-story-visual { width: min(100%, 1050px); margin-inline: auto; }
+.project-story-wide .project-story-visual .project-art { min-height: 470px; }
+.project-story-wide .project-story-copy { display: grid; grid-template-columns: 1fr 1.25fr; column-gap: 4rem; align-items: start; padding-top: 28px; }
+.project-story-wide .project-story-copy > .flex { grid-column: 1 / -1; }
+.project-story-wide .project-story-copy > h3 { grid-column: 1; }
+.project-story-wide .project-story-copy > p { grid-column: 2; grid-row: 2; }
+.project-story-wide .project-story-copy > div:nth-of-type(2), .project-story-wide .project-story-copy > button { grid-column: 2; }
+.project-story-wide .project-story-copy > div:nth-of-type(2) { grid-row: 3; }
+.project-story-wide .project-story-copy > button { grid-row: 3; justify-self: end; }
+.project-story:hover .project-art { transform: scale(1.018); filter: saturate(1.08); }
+.contact-form input, .contact-form textarea { border-radius: 0; }
+@media (max-width: 767px) {
+  .project-story { padding: 48px 0 58px; }
+  .project-story-split, .project-story-reverse { display: block; }
+  .project-story-copy { padding-top: 28px; }
+  .project-story-wide .project-story-visual .project-art { min-height: 340px; }
+  .project-story-wide .project-story-copy { display: block; }
+  .project-story-wide .project-story-copy > p { margin-top: 1rem; }
+  .project-story-wide .project-story-copy > button { margin-top: 2.5rem; justify-self: auto; }
+}
 .underlined { position: relative; }
 .underlined::after { content: ''; position: absolute; left: 0; right: 100%; bottom: -3px; height: 1px; background: currentColor; transition: right .25s ease; }
 .underlined:hover::after { right: 0; }
