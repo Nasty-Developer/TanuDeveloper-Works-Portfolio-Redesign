@@ -7,6 +7,7 @@ import {
   ChevronDown,
   CircleArrowOutUpRight,
   Code2,
+  ExternalLink,
   Github,
   Instagram,
   Linkedin,
@@ -62,6 +63,60 @@ const projects = [
     description: 'A visual route through places, stays, and inspiration — built for the moment when browsing becomes a plan.',
     tags: ['React', 'Node.js', 'TypeScript'],
     type: 'travel',
+  },
+  {
+    number: '04',
+    name: 'Restaurant Website',
+    category: 'Restaurant',
+    description: 'A premium dining experience website with online menu, gallery, table reservation system, and WhatsApp ordering integration.',
+    tags: ['React', 'Tailwind', 'Firebase'],
+    type: 'restaurant',
+    liveUrl: 'https://serai-fa-premium.vercel.app/',
+  },
+  {
+    number: '05',
+    name: 'Dental Clinic Website',
+    category: 'Healthcare',
+    description: 'Modern healthcare web presence with appointment booking, service listings, doctor profiles, and trust-building testimonials.',
+    tags: ['Next.js', 'TypeScript', 'Tailwind'],
+    type: 'dental',
+    liveUrl: 'https://somil-dental-clinic.vercel.app/',
+  },
+  {
+    number: '06',
+    name: 'Gaming Website',
+    category: 'Gaming',
+    description: 'PC game compatibility checker featuring system requirement analysis, game comparisons, FPS estimates, and hardware recommendations.',
+    tags: ['React', 'Framer Motion', 'Tailwind'],
+    type: 'gaming',
+    liveUrl: 'https://tanugamehub.vercel.app',
+  },
+  {
+    number: '07',
+    name: 'Gym Website',
+    category: 'Fitness',
+    description: 'High-energy fitness center website with class schedules, membership plans, trainer profiles, and a motivating visual design.',
+    tags: ['React', 'Tailwind', 'TypeScript'],
+    type: 'gym',
+    liveUrl: 'https://aurum-gym.vercel.app/',
+  },
+  {
+    number: '08',
+    name: 'Clothing Website',
+    category: 'Fashion',
+    description: 'Stylish fashion e-commerce site with product listings, category filters, a clean shopping experience, and a modern visual identity.',
+    tags: ['Next.js', 'Tailwind', 'Firebase'],
+    type: 'clothing',
+    liveUrl: 'https://sea-clothing.vercel.app',
+  },
+  {
+    number: '09',
+    name: 'E-Commerce Website',
+    category: 'E-Commerce',
+    description: 'Full-featured online store with product catalog, cart, payment gateway integration, order tracking, and admin dashboard.',
+    tags: ['Next.js', 'TypeScript', 'Stripe'],
+    type: 'ecommerce',
+    liveUrl: 'https://ecommerce-pro-tanu.vercel.app/',
   },
 ];
 
@@ -165,6 +220,76 @@ function ProjectArtwork({ type }: { type: string }) {
       </div>
     );
   }
+  if (type === 'restaurant') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#e8ded0] p-6 text-[#312a25]">
+        <div className="absolute right-[-10%] top-[-25%] h-72 w-72 rounded-full border border-[#9b7a5d]/40" />
+        <div className="relative flex h-full min-h-[250px] flex-col justify-between border-y border-[#8d735d]/45 py-4">
+          <div className="flex items-start justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#8d735d]">the serai / dining</span><span className="font-display text-2xl font-semibold italic">S</span></div>
+          <div><div className="font-display text-5xl font-semibold leading-[.86] tracking-[-.09em]">made<br /><span className="text-[#ad765d]">slowly.</span></div><div className="mt-5 h-px w-20 bg-[#8d735d]" /></div>
+          <div className="flex items-end justify-between text-[10px] uppercase tracking-[.16em] text-[#8d735d]"><span>menu / reserve / order</span><span>07:00 — 23:00</span></div>
+        </div>
+      </div>
+    );
+  }
+  if (type === 'dental') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#dceaf0] p-6 text-[#1d4152]">
+        <div className="relative mx-auto flex min-h-[250px] max-w-[500px] flex-col justify-between border border-[#94b8c6] bg-[#edf6f6]/80 p-5">
+          <div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#578193]">somil dental clinic</span><span className="flex h-6 w-6 items-center justify-center border border-[#74a5b5] text-[#4e879b]">+</span></div>
+          <div><div className="font-display text-4xl font-semibold leading-[.9] tracking-[-.08em]">care,<br /><span className="text-[#5c94a5]">made clear.</span></div><p className="mt-4 max-w-[210px] text-xs leading-5 text-[#64808b]">Appointments, expertise, a calmer visit.</p></div>
+          <div className="flex gap-2"><span className="h-1.5 w-14 rounded-full bg-[#5c94a5]" /><span className="h-1.5 w-6 rounded-full bg-[#b6d5dc]" /><span className="h-1.5 w-10 rounded-full bg-[#b6d5dc]" /></div>
+        </div>
+      </div>
+    );
+  }
+  if (type === 'gaming') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#242b3c] p-6 text-[#e5e1db]">
+        <div className="absolute inset-x-0 top-1/2 border-t border-[#e5e1db]/10" /><div className="absolute inset-y-0 left-1/2 border-l border-[#e5e1db]/10" />
+        <div className="relative flex min-h-[250px] flex-col justify-between">
+          <div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#e8a0ae]">game / check</span><span className="font-mono-custom text-[10px] text-[#8792a8]">fps 144</span></div>
+          <div><div className="font-display text-5xl font-semibold leading-[.85] tracking-[-.09em]">will it<br /><span className="text-[#e8a0ae]">run?</span></div><div className="mt-6 flex gap-1"><i className="h-8 w-1 bg-[#8da9d5]" /><i className="h-12 w-1 bg-[#e8a0ae]" /><i className="h-16 w-1 bg-[#8da9d5]" /><i className="h-10 w-1 bg-[#e8a0ae]" /><i className="h-20 w-1 bg-[#8da9d5]" /></div></div>
+          <div className="flex justify-between font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#8792a8]"><span>hardware analysis</span><span>01 / 04</span></div>
+        </div>
+      </div>
+    );
+  }
+  if (type === 'gym') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#172c43] p-6 text-[#f3eee7]">
+        <div className="absolute bottom-0 right-[16%] h-[78%] w-20 skew-x-[-16deg] bg-[#d8839e]/80" /><div className="absolute bottom-0 right-[2%] h-[58%] w-10 skew-x-[-16deg] bg-[#87a8db]/65" />
+        <div className="relative flex min-h-[250px] flex-col justify-between">
+          <div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#a5bbd8]">aurum / training</span><span className="font-display text-xl font-bold italic">A.</span></div>
+          <div><div className="font-display text-5xl font-extrabold uppercase leading-[.78] tracking-[-.09em]">move<br /><span className="text-[#d8839e]">with intent.</span></div><div className="mt-6 flex gap-3 font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#a5bbd8]"><span>classes</span><span>plans</span><span>trainers</span></div></div>
+          <span className="font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#a5bbd8]">strength / rhythm / repeat</span>
+        </div>
+      </div>
+    );
+  }
+  if (type === 'clothing') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#eededc] p-6 text-[#382c35]">
+        <div className="absolute bottom-0 right-[12%] h-[85%] w-1/2 bg-[#d1a5ae]/55" />
+        <div className="relative flex min-h-[250px] flex-col justify-between">
+          <div className="flex items-center justify-between border-b border-[#8f6977]/35 pb-3"><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#8f6977]">sea / collection 01</span><span className="font-mono-custom text-[10px] text-[#8f6977]">shop</span></div>
+          <div><div className="font-display text-5xl font-semibold leading-[.83] tracking-[-.1em]">soft<br />structure.</div><p className="mt-5 font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#8f6977]">objects for an everyday wardrobe</p></div>
+          <div className="flex justify-between border-t border-[#8f6977]/35 pt-3 font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#8f6977]"><span>new arrivals</span><span>02 / 06</span></div>
+        </div>
+      </div>
+    );
+  }
+  if (type === 'ecommerce') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#e1eaf1] p-6 text-[#203349]">
+        <div className="relative flex min-h-[250px] flex-col justify-between">
+          <div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#55708f]">shop / one place</span><span className="h-5 w-5 border border-[#55708f] text-center text-[10px] leading-5">2</span></div>
+          <div className="flex items-end justify-between gap-6"><div><div className="font-display text-5xl font-semibold leading-[.84] tracking-[-.09em]">find<br /><span className="text-[#5b84b3]">your next.</span></div><div className="mt-6 h-1 w-20 bg-[#d9829c]" /></div><div className="w-28 border-l border-[#9bb4cc] pl-4 font-mono-custom text-[10px] uppercase leading-5 tracking-[.12em] text-[#55708f]">catalog<br />cart<br />delivery</div></div>
+          <div className="flex justify-between border-t border-[#9bb4cc] pt-3 font-mono-custom text-[10px] uppercase tracking-[.16em] text-[#55708f]"><span>admin / orders / track</span><span>ready to ship</span></div>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#f5d9df]">
       <div className="absolute right-[-8%] top-[-30%] h-[330px] w-[330px] rounded-full border-[38px] border-[#ee86a4]/55" />
@@ -195,7 +320,10 @@ function ProjectCard({ project }: { project: typeof projects[number] }) {
         <div className="mt-8 flex flex-wrap gap-x-4 gap-y-2 font-mono-custom text-[10px] uppercase tracking-[.13em] text-muted-foreground">
           {project.tags.map((tag) => <span key={tag}>{tag}</span>)}
         </div>
-        <button type="button" onClick={() => scrollToId('#contact')} className="mt-10 flex items-center gap-2 text-xs font-semibold uppercase tracking-[.12em] text-foreground">Discuss this build <MoveUpRight size={14} className="button-arrow" /></button>
+        <div className="mt-10 flex flex-wrap items-center gap-5">
+          <button type="button" onClick={() => scrollToId('#contact')} className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[.12em] text-foreground">Discuss this build <MoveUpRight size={14} className="button-arrow" /></button>
+          {project.liveUrl && <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[.12em] text-[var(--blue)]">Live site <ExternalLink size={13} className="button-arrow" /></a>}
+        </div>
       </div>
     </article>
   );
@@ -319,7 +447,7 @@ function Home() {
         </section>
       </main>
       <footer className="border-t border-[var(--line)] px-5 py-10 md:px-8">
-        <div className="section-shell flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><div className="flex items-center gap-2.5"><span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-foreground text-background"><span className="font-display text-sm font-extrabold">T.</span></span><span className="text-sm font-semibold tracking-[-.02em]">Tanu Developer</span></div><p className="mt-4 max-w-[270px] text-xs leading-5 text-muted-foreground">Independent full-stack developer and digital creator in Mumbai, India.</p></div><div className="flex flex-wrap items-center gap-5 text-xs text-muted-foreground"><a className="underlined" href="https://www.instagram.com/tanuuuyyyy/" target="_blank" rel="noreferrer"><Instagram size={15} /></a><a className="underlined" href="https://github.com/tanudevworks-web" target="_blank" rel="noreferrer"><Github size={15} /></a><a className="underlined" href="https://www.linkedin.com/in/tanu-tapase/" target="_blank" rel="noreferrer"><Linkedin size={15} /></a><span className="ml-2 border-l border-[var(--line)] pl-5">© 2025 Tanu Tapase</span><button type="button" onClick={() => scrollToId('#top')} className="flex items-center gap-1 font-medium text-foreground">Back to top <ChevronDown size={14} className="rotate-180" /></button></div></div>
+        <div className="section-shell flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><div className="flex items-center gap-2.5"><span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-foreground text-background"><span className="font-display text-sm font-extrabold">T.</span></span><span className="text-sm font-semibold tracking-[-.02em]">Tanu Developer</span></div><p className="mt-4 max-w-[270px] text-xs leading-5 text-muted-foreground">Independent full-stack developer and digital creator in Mumbai, India.</p></div><div className="flex flex-wrap items-center gap-5 text-xs text-muted-foreground"><a className="underlined" href="https://www.instagram.com/tanuuuyyyy?igsh=cDAya3h0YnpxcmFq" target="_blank" rel="noreferrer"><Instagram size={15} /></a><a className="underlined" href="https://github.com/tanudevworks-web" target="_blank" rel="noreferrer"><Github size={15} /></a><a className="underlined" href="https://www.linkedin.com/in/tanu-tapase-461405411" target="_blank" rel="noreferrer"><Linkedin size={15} /></a><span className="ml-2 border-l border-[var(--line)] pl-5">© 2025 Tanu Tapase</span><button type="button" onClick={() => scrollToId('#top')} className="flex items-center gap-1 font-medium text-foreground">Back to top <ChevronDown size={14} className="rotate-180" /></button></div></div>
       </footer>
       {menuToast && <div className="fixed bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full border border-[var(--line)] bg-foreground px-4 py-3 text-xs font-medium text-background shadow-[var(--shadow-float)]"><Check size={14} className="text-[var(--pink)]" /> Your enquiry is ready — email Tanu directly to send it.</div>}
     </div>

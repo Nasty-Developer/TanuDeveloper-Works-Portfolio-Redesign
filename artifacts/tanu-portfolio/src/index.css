@@ -117,12 +117,11 @@ button:hover .button-arrow, a:hover .button-arrow { transform: translate(3px, -3
 .project-story-wide .project-story-visual { width: min(100%, 1050px); margin-inline: auto; }
 .project-story-wide .project-story-visual .project-art { min-height: 470px; }
 .project-story-wide .project-story-copy { display: grid; grid-template-columns: 1fr 1.25fr; column-gap: 4rem; align-items: start; padding-top: 28px; }
-.project-story-wide .project-story-copy > .flex { grid-column: 1 / -1; }
+.project-story-wide .project-story-copy > .flex:first-child { grid-column: 1 / -1; }
 .project-story-wide .project-story-copy > h3 { grid-column: 1; }
 .project-story-wide .project-story-copy > p { grid-column: 2; grid-row: 2; }
-.project-story-wide .project-story-copy > div:nth-of-type(2), .project-story-wide .project-story-copy > button { grid-column: 2; }
-.project-story-wide .project-story-copy > div:nth-of-type(2) { grid-row: 3; }
-.project-story-wide .project-story-copy > button { grid-row: 3; justify-self: end; }
+.project-story-wide .project-story-copy > .flex:nth-of-type(2) { grid-column: 1; grid-row: 3; }
+.project-story-wide .project-story-copy > .flex:nth-of-type(3) { grid-column: 2; grid-row: 3; justify-self: end; }
 .project-story:hover .project-art { transform: scale(1.018); filter: saturate(1.08); }
 .contact-form input, .contact-form textarea { border-radius: 0; }
 @media (max-width: 767px) {
