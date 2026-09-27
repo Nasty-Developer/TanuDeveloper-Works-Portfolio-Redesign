@@ -231,11 +231,10 @@ function Home() {
   };
 
   return (
-    <div id="top" className="site-shell noise min-h-[100dvh]">
+    <div id="top" className="site-shell min-h-[100dvh]">
       <Header dark={dark} onToggle={() => setDark(!dark)} />
       <main>
         <section className="relative min-h-[780px] overflow-hidden px-5 pb-24 pt-36 md:px-8 md:pt-44">
-          <div className="grid-paper pointer-events-none absolute inset-x-0 top-0 h-[690px]" />
           <div className="pointer-events-none absolute left-[56%] top-32 h-[440px] w-[440px] rounded-full bg-[var(--pink)]/10 blur-3xl" />
           <div className="pointer-events-none absolute right-[-80px] top-56 h-[380px] w-[380px] rounded-full bg-[var(--blue)]/10 blur-3xl" />
           <div className="section-shell relative">
