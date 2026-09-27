@@ -1,37 +1,336 @@
-import { type ReactNode } from 'react';
+import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  BriefcaseBusiness,
+  Check,
+  ChevronDown,
+  CircleArrowOutUpRight,
+  Code2,
+  Github,
+  Instagram,
+  Linkedin,
+  Mail,
+  Menu,
+  Moon,
+  MoveUpRight,
+  Palette,
+  Phone,
+  Send,
+  Sparkles,
+  Sun,
+  X,
+  Zap,
+} from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
-import {
-  Route,
-  Switch,
-  useLocation,
-  Router as WouterRouter,
-} from 'wouter';
+import { Route, Switch, useLocation, Router as WouterRouter } from 'wouter';
 
 const queryClient = new QueryClient();
 
-function Home() {
+const navItems = [
+  { label: 'Work', href: '#work' },
+  { label: 'Studio', href: '#studio' },
+  { label: 'Process', href: '#process' },
+  { label: 'Contact', href: '#contact' },
+];
+
+const projects = [
+  {
+    number: '01',
+    name: 'Ayush Medico',
+    category: 'Healthcare commerce',
+    description: 'A clear, trustworthy storefront experience for everyday healthcare — designed to make the next action obvious.',
+    tags: ['React', 'Tailwind CSS', 'Firebase'],
+    type: 'medico',
+  },
+  {
+    number: '02',
+    name: 'Dashboard Pro',
+    category: 'Product interface',
+    description: 'A focused data workspace that turns a dense operational view into a calmer, more useful daily tool.',
+    tags: ['Next.js', 'TypeScript', 'PostgreSQL'],
+    type: 'dashboard',
+  },
+  {
+    number: '03',
+    name: 'Travel Explorer',
+    category: 'Discovery platform',
+    description: 'A visual route through places, stays, and inspiration — built for the moment when browsing becomes a plan.',
+    tags: ['React', 'Node.js', 'TypeScript'],
+    type: 'travel',
+  },
+];
+
+const capabilities = [
+  { index: '01', title: 'Web experiences', text: 'Responsive marketing sites and portfolios with a point of view.', icon: Palette },
+  { index: '02', title: 'Product interfaces', text: 'Thoughtful dashboards and tools that make complexity feel lighter.', icon: Code2 },
+  { index: '03', title: 'Full-stack builds', text: 'The front end, API, database, and details that make it hold together.', icon: Zap },
+];
+
+const skills = ['React', 'TypeScript', 'Next.js', 'Tailwind CSS', 'Firebase', 'Node.js', 'PostgreSQL', 'Git'];
+
+function scrollToId(id: string) {
+  document.querySelector(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function ThemeToggle({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-gray-50">
-      <div className="text-center">
-        <h1 className="text-2xl font-bold text-gray-900">
-          Replit Agent is building...
-        </h1>
-        <p className="mt-2 text-sm text-gray-600">
-          Your app will appear here once it's ready.
-        </p>
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+      className="relative flex h-10 w-[72px] items-center rounded-full border border-[var(--line)] bg-background/75 px-1.5 backdrop-blur-md transition-colors hover:border-[var(--blue)]"
+    >
+      <span className={`absolute left-1.5 flex h-7 w-7 items-center justify-center rounded-full bg-foreground text-background shadow-sm transition-transform duration-300 ${dark ? 'translate-x-8' : ''}`}>
+        {dark ? <Moon size={14} strokeWidth={1.8} /> : <Sun size={14} strokeWidth={1.8} />}
+      </span>
+      <span className="flex w-full justify-between px-1 text-muted-foreground">
+        <Sun size={13} />
+        <Moon size={13} />
+      </span>
+    </button>
+  );
+}
+
+function Header({ dark, onToggle }: { dark: boolean; onToggle: () => void }) {
+  const [open, setOpen] = useState(false);
+  const go = (href: string) => {
+    setOpen(false);
+    scrollToId(href);
+  };
+
+  return (
+    <header className="fixed left-0 right-0 top-0 z-30 px-5 pt-4 md:px-8">
+      <div className="section-shell flex h-[64px] items-center justify-between rounded-full border border-[var(--line)] bg-background/82 px-4 shadow-[0_8px_35px_rgba(30,42,67,.06)] backdrop-blur-xl md:px-5">
+        <button type="button" className="group flex items-center gap-2.5" onClick={() => go('#top')} aria-label="Back to top">
+          <span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-foreground text-background transition-transform group-hover:rotate-6">
+            <span className="font-display text-sm font-extrabold">T.</span>
+          </span>
+          <span className="hidden text-sm font-semibold tracking-[-.02em] sm:block">TanuDeveloper <span className="text-muted-foreground">Works</span></span>
+        </button>
+        <nav className="hidden items-center gap-7 md:flex" aria-label="Main navigation">
+          {navItems.map((item) => (
+            <button key={item.href} type="button" onClick={() => go(item.href)} className="underlined text-[13px] font-medium text-muted-foreground transition-colors hover:text-foreground">
+              {item.label}
+            </button>
+          ))}
+        </nav>
+        <div className="flex items-center gap-2">
+          <ThemeToggle dark={dark} onToggle={onToggle} />
+          <button type="button" onClick={() => setOpen(!open)} className="flex h-10 w-10 items-center justify-center rounded-full border border-[var(--line)] md:hidden" aria-label={open ? 'Close menu' : 'Open menu'}>
+            {open ? <X size={17} /> : <Menu size={17} />}
+          </button>
+        </div>
       </div>
+      {open && (
+        <div className="section-shell mt-2 rounded-3xl border border-[var(--line)] bg-background/95 p-3 shadow-[var(--shadow-soft)] backdrop-blur-xl md:hidden">
+          {navItems.map((item) => (
+            <button key={item.href} type="button" onClick={() => go(item.href)} className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm font-medium hover:bg-secondary">
+              {item.label}<ArrowUpRight size={15} />
+            </button>
+          ))}
+        </div>
+      )}
+    </header>
+  );
+}
+
+function ProjectArtwork({ type }: { type: string }) {
+  if (type === 'dashboard') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#dce8f5] p-5 text-[#17243b]">
+        <div className="absolute right-[-8%] top-[-18%] h-64 w-64 rounded-full border-[20px] border-[#91b7e8]/60" />
+        <div className="relative mt-9 ml-3 max-w-[340px] rounded-[14px] border border-[#b4cce5] bg-[#f7fafc]/90 p-4 shadow-xl shadow-[#6b89ad]/20">
+          <div className="flex items-center justify-between"><div className="h-2.5 w-24 rounded-full bg-[#223858]" /><div className="flex gap-1"><i className="h-2 w-2 rounded-full bg-[#ed89aa]" /><i className="h-2 w-2 rounded-full bg-[#6ba2eb]" /></div></div>
+          <div className="mt-7 grid grid-cols-3 gap-2"><div className="h-16 rounded-lg bg-[#e1ecf8]" /><div className="h-16 rounded-lg bg-[#e1ecf8]" /><div className="h-16 rounded-lg bg-[#e1ecf8]" /></div>
+          <div className="mt-4 flex h-20 items-end gap-2 rounded-lg bg-[#edf3f9] p-3"><span className="h-8 w-1/6 rounded-t bg-[#91b7e8]" /><span className="h-12 w-1/6 rounded-t bg-[#ed89aa]" /><span className="h-6 w-1/6 rounded-t bg-[#91b7e8]" /><span className="h-14 w-1/6 rounded-t bg-[#223858]" /><span className="h-10 w-1/6 rounded-t bg-[#91b7e8]" /></div>
+        </div>
+        <span className="absolute bottom-5 right-5 font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#536b89]">operational clarity</span>
+      </div>
+    );
+  }
+  if (type === 'travel') {
+    return (
+      <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#1f4365]">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_72%_25%,#f5b8c1_0,transparent_17%),linear-gradient(145deg,#9cc2d4_0%,#42738e_42%,#1f4365_100%)]" />
+        <div className="absolute bottom-[-20%] left-[-5%] h-3/5 w-[120%] rotate-[-7deg] rounded-[50%] bg-[#17334e]/60" />
+        <div className="absolute bottom-[-30%] right-[-10%] h-3/5 w-3/4 rotate-[13deg] rounded-[50%] bg-[#d88e9d]/55" />
+        <div className="absolute left-[17%] top-[24%] h-32 w-32 rounded-full border border-white/40 bg-white/10 backdrop-blur-sm" />
+        <div className="absolute left-[22%] top-[31%] font-display text-3xl font-semibold tracking-[-.08em] text-white">go<br /><span className="pl-4">somewhere.</span></div>
+        <span className="absolute bottom-5 left-5 font-mono-custom text-[10px] uppercase tracking-[.2em] text-white/70">routes / stays / stories</span>
+      </div>
+    );
+  }
+  return (
+    <div className="project-art relative h-full min-h-[300px] overflow-hidden bg-[#f5d9df]">
+      <div className="absolute right-[-8%] top-[-30%] h-[330px] w-[330px] rounded-full border-[38px] border-[#ee86a4]/55" />
+      <div className="absolute bottom-[-25%] left-[-12%] h-[280px] w-[280px] rounded-full bg-[#9dbfe8]/75" />
+      <div className="absolute left-[12%] top-[21%] w-[72%] rotate-[-4deg] rounded-[16px] border border-[#b98b9b] bg-[#fffaf7]/90 p-4 shadow-2xl shadow-[#a97888]/25">
+        <div className="flex items-center justify-between"><span className="font-mono-custom text-[9px] uppercase tracking-[.18em] text-[#6e6870]">ayush / care</span><CircleArrowOutUpRight size={15} className="text-[#45658b]" /></div>
+        <div className="mt-8 font-display text-4xl font-semibold tracking-[-.08em] text-[#17243b]">good care<br /><span className="text-[#d87597]">starts here.</span></div>
+        <div className="mt-8 h-1 w-20 bg-[#17243b]" />
+      </div>
+      <span className="absolute bottom-5 right-5 font-mono-custom text-[10px] uppercase tracking-[.2em] text-[#685463]">everyday wellness</span>
+    </div>
+  );
+}
+
+function ProjectCard({ project, featured = false }: { project: typeof projects[number]; featured?: boolean }) {
+  return (
+    <article className={`project-card group overflow-hidden rounded-[1.35rem] border border-[var(--line)] bg-card shadow-[var(--shadow-soft)] transition-all duration-500 hover:-translate-y-1 hover:shadow-[var(--shadow-float)] ${featured ? 'md:col-span-2' : ''}`}>
+      <div className={featured ? 'grid md:grid-cols-[1.07fr_.93fr]' : ''}>
+        <div className="overflow-hidden"><ProjectArtwork type={project.type} /></div>
+        <div className="flex flex-col justify-between p-6 md:p-7">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="font-mono-custom text-[11px] text-muted-foreground">{project.number} / {project.category}</span>
+              <ArrowUpRight size={17} className="text-muted-foreground transition-transform duration-300 group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-foreground" />
+            </div>
+            <h3 className="mt-7 font-display text-2xl font-bold tracking-[-.055em]">{project.name}</h3>
+            <p className="mt-3 max-w-[330px] text-sm leading-6 text-muted-foreground">{project.description}</p>
+          </div>
+          <div className="mt-8">
+            <div className="mb-5 flex flex-wrap gap-2">{project.tags.map((tag) => <span key={tag} className="rounded-full border border-[var(--line)] px-2.5 py-1 font-mono-custom text-[10px] text-muted-foreground">{tag}</span>)}</div>
+            <button type="button" onClick={() => scrollToId('#contact')} className="flex items-center gap-2 text-xs font-semibold uppercase tracking-[.12em] text-foreground">Discuss this build <MoveUpRight size={14} className="button-arrow" /></button>
+          </div>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+function Home() {
+  const [dark, setDark] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [menuToast, setMenuToast] = useState(false);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem('tanu-theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setDark(stored ? stored === 'dark' : prefersDark);
+  }, []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+    window.localStorage.setItem('tanu-theme', dark ? 'dark' : 'light');
+  }, [dark]);
+
+  const submitContact = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const values = new FormData(form);
+    const name = String(values.get('name') || '');
+    const email = String(values.get('email') || '');
+    const message = String(values.get('message') || '');
+    setSent(true);
+    setMenuToast(true);
+    window.setTimeout(() => setMenuToast(false), 4200);
+    window.location.href = `mailto:tanudevworks@gmail.com?subject=${encodeURIComponent(`Project enquiry from ${name}`)}&body=${encodeURIComponent(`${message}\n\nReply to: ${email}`)}`;
+  };
+
+  return (
+    <div id="top" className="site-shell noise min-h-[100dvh]">
+      <Header dark={dark} onToggle={() => setDark(!dark)} />
+      <main>
+        <section className="relative min-h-[780px] overflow-hidden px-5 pb-24 pt-36 md:px-8 md:pt-44">
+          <div className="grid-paper pointer-events-none absolute inset-x-0 top-0 h-[690px]" />
+          <div className="pointer-events-none absolute left-[56%] top-32 h-[440px] w-[440px] rounded-full bg-[var(--pink)]/10 blur-3xl" />
+          <div className="pointer-events-none absolute right-[-80px] top-56 h-[380px] w-[380px] rounded-full bg-[var(--blue)]/10 blur-3xl" />
+          <div className="section-shell relative">
+            <div className="mb-16 flex items-center justify-between border-b border-[var(--line)] pb-4 reveal">
+              <p className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-muted-foreground">Mumbai, India <span className="mx-2 text-[var(--pink)]">/</span> available for select work</p>
+              <span className="hidden items-center gap-2 font-mono-custom text-[10px] uppercase tracking-[.2em] text-muted-foreground sm:flex"><i className="h-1.5 w-1.5 rounded-full bg-[#55b981]" /> 2025 — now</span>
+            </div>
+            <div className="max-w-[920px]">
+              <p className="mb-5 flex items-center gap-2 font-mono-custom text-xs uppercase tracking-[.19em] text-[var(--blue)] reveal reveal-delay-1"><Sparkles size={14} /> Web Developer &amp; Digital Creator</p>
+              <h1 className="font-display text-[clamp(3.5rem,9.5vw,8.8rem)] font-extrabold leading-[.91] tracking-[-.095em] reveal reveal-delay-1">Interfaces<br /><span className="text-[var(--blue)]">with intent.</span></h1>
+              <div className="mt-10 flex max-w-[650px] flex-col justify-between gap-8 sm:flex-row sm:items-end reveal reveal-delay-2">
+                <p className="max-w-[390px] text-[17px] leading-7 text-muted-foreground">I’m Tanu Tapase — a full-stack developer building digital experiences that feel clear, capable, and worth remembering.</p>
+                <button type="button" onClick={() => scrollToId('#work')} className="group flex w-fit items-center gap-3 rounded-full bg-foreground px-5 py-3.5 text-sm font-semibold text-background transition-transform hover:-translate-y-0.5">
+                  Explore selected work <ArrowDownRight size={17} className="button-arrow" />
+                </button>
+              </div>
+            </div>
+            <div className="relative mt-20 flex items-end justify-between border-t border-[var(--line)] pt-6 reveal reveal-delay-3">
+              <div className="flex gap-10">
+                <div><p className="font-display text-3xl font-bold tracking-[-.06em]">01</p><p className="mt-1 font-mono-custom text-[10px] uppercase tracking-[.16em] text-muted-foreground">developer access</p></div>
+                <div><p className="font-display text-3xl font-bold tracking-[-.06em]">∞</p><p className="mt-1 font-mono-custom text-[10px] uppercase tracking-[.16em] text-muted-foreground">curiosity</p></div>
+              </div>
+              <div className="hidden h-20 w-20 items-center justify-center rounded-full border border-[var(--line)] sm:flex"><div className="orbit absolute h-20 w-20 rounded-full border-t border-[var(--blue)]" /><ArrowDownRight size={20} /></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="studio" className="scroll-mt-28 border-y border-[var(--line)] bg-secondary/45 px-5 py-24 md:px-8 md:py-32">
+          <div className="section-shell">
+            <div className="grid gap-12 md:grid-cols-[.75fr_1.25fr] md:gap-20">
+              <div><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[var(--pink)]">The studio</span><h2 className="mt-6 font-display text-4xl font-bold leading-[.98] tracking-[-.07em] md:text-6xl">Small studio.<br />Serious work.</h2></div>
+              <div><p className="max-w-[570px] text-xl leading-8 tracking-[-.02em] md:text-2xl">TanuDeveloper Works is a digital studio for people who want a thoughtful partner, not a ticket queue. I bring business context into the design and engineering room.</p><p className="mt-7 max-w-[500px] leading-7 text-muted-foreground">From the first rough idea to the last responsive detail, I work close to the problem — shaping interfaces, systems, and stories that help a business move forward.</p><button type="button" onClick={() => scrollToId('#contact')} className="mt-9 flex items-center gap-2 text-sm font-semibold">Start a conversation <ArrowUpRight size={16} className="button-arrow" /></button></div>
+            </div>
+          </div>
+        </section>
+
+        <section id="work" className="scroll-mt-28 px-5 py-24 md:px-8 md:py-32">
+          <div className="section-shell">
+            <div className="mb-12 flex flex-col justify-between gap-4 md:flex-row md:items-end"><div><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[var(--blue)]">Selected work</span><h2 className="mt-5 font-display text-5xl font-bold tracking-[-.08em] md:text-7xl">Made to be used.</h2></div><p className="max-w-[250px] text-sm leading-6 text-muted-foreground">A few digital products and experiences shaped with care.</p></div>
+            <div className="grid gap-5 md:grid-cols-2"><ProjectCard project={projects[0]} featured /><ProjectCard project={projects[1]} /><ProjectCard project={projects[2]} /></div>
+          </div>
+        </section>
+
+        <section className="px-5 pb-24 md:px-8 md:pb-32">
+          <div className="section-shell rounded-[1.6rem] border border-[var(--line)] bg-foreground px-6 py-10 text-background md:px-12 md:py-14">
+            <div className="flex flex-col justify-between gap-10 md:flex-row md:items-end"><div><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[var(--pink)]">What I bring</span><h2 className="mt-5 max-w-[600px] font-display text-4xl font-bold leading-[.96] tracking-[-.07em] md:text-6xl">Good work starts<br />before the code.</h2></div><p className="max-w-[270px] text-sm leading-6 text-background/60">Business-focused design, direct communication, and a build process that respects your time.</p></div>
+            <div className="mt-14 grid gap-0 border-t border-background/20 md:grid-cols-3">{capabilities.map(({ index, title, text, icon: Icon }) => <div key={title} className="border-b border-background/20 py-7 md:border-b-0 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0"><div className="flex items-center justify-between"><span className="font-mono-custom text-[10px] text-background/50">{index}</span><Icon size={19} strokeWidth={1.5} className="text-[var(--pink)]" /></div><h3 className="mt-8 font-display text-xl font-semibold tracking-[-.04em]">{title}</h3><p className="mt-3 max-w-[240px] text-sm leading-6 text-background/60">{text}</p></div>)}</div>
+          </div>
+        </section>
+
+        <section id="process" className="scroll-mt-28 border-y border-[var(--line)] px-5 py-24 md:px-8 md:py-32">
+          <div className="section-shell grid gap-14 md:grid-cols-[.72fr_1.28fr]">
+            <div><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[var(--pink)]">The process</span><h2 className="mt-6 max-w-[330px] font-display text-5xl font-bold leading-[.96] tracking-[-.08em] md:text-6xl">Clear steps.<br />No theatre.</h2><p className="mt-7 max-w-[300px] text-sm leading-6 text-muted-foreground">You’ll always know what we’re solving, what happens next, and where your project stands.</p></div>
+            <div className="border-t border-[var(--line)]">{[['01', 'Align', 'We get specific about the business, the audience, and what success needs to feel like.'], ['02', 'Shape', 'I translate the brief into a sharp direction — structure, language, visual system, and plan.'], ['03', 'Build', 'The experience comes to life in clean, responsive code with regular, useful check-ins.'], ['04', 'Refine', 'We test the edges, tune the details, and hand over something ready for the real world.']].map(([num, title, text]) => <div key={num} className="grid grid-cols-[46px_1fr] gap-5 border-b border-[var(--line)] py-7 md:grid-cols-[68px_150px_1fr] md:gap-7"><span className="font-mono-custom text-xs text-[var(--blue)]">{num}</span><h3 className="font-display text-xl font-semibold tracking-[-.04em]">{title}</h3><p className="col-start-2 text-sm leading-6 text-muted-foreground md:col-start-auto">{text}</p></div>)}</div>
+          </div>
+        </section>
+
+        <section className="px-5 py-24 md:px-8 md:py-32">
+          <div className="section-shell grid gap-12 md:grid-cols-[1fr_1fr] md:gap-20">
+            <div><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[var(--blue)]">Tools of the trade</span><h2 className="mt-6 font-display text-5xl font-bold leading-[.96] tracking-[-.08em] md:text-7xl">Built for<br /><span className="text-[var(--pink)]">the details.</span></h2></div>
+            <div><p className="max-w-[470px] text-lg leading-8 text-muted-foreground">A flexible stack for fast feedback, durable systems, and interfaces that stay lovely when the screen gets smaller.</p><div className="mt-10 flex max-w-[500px] flex-wrap gap-2.5">{skills.map((skill) => <span key={skill} className="rounded-full border border-[var(--line)] px-4 py-2.5 font-mono-custom text-xs transition-colors hover:border-[var(--blue)] hover:bg-secondary">{skill}</span>)}</div></div>
+          </div>
+        </section>
+
+        <section className="border-y border-[var(--line)] bg-secondary/35 px-5 py-24 md:px-8 md:py-32">
+          <div className="section-shell grid gap-14 md:grid-cols-[.8fr_1.2fr]">
+            <div><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[var(--pink)]">A short timeline</span><h2 className="mt-6 font-display text-5xl font-bold leading-[.96] tracking-[-.08em] md:text-6xl">In the<br />making.</h2></div>
+            <div className="relative border-l border-[var(--line)] pl-7 md:pl-12">{[['2021', 'First commercial project', 'The first real brief, the first launch, and the start of taking web work seriously.'], ['2022', 'Studio founded', 'TanuDeveloper Works takes shape as a home for thoughtful design and full-stack development.'], ['2025', 'Premium studio launch', 'A sharper point of view: better systems, better stories, and a more considered way to build.']].map(([year, title, text], index) => <div key={year} className="relative pb-12 last:pb-0"><i className={`absolute -left-[31px] top-1.5 h-2.5 w-2.5 rounded-full border-2 border-background ${index === 2 ? 'bg-[var(--pink)]' : 'bg-[var(--blue)]'} md:-left-[55px]`} /><span className="font-mono-custom text-xs text-[var(--blue)]">{year}</span><h3 className="mt-3 font-display text-2xl font-semibold tracking-[-.05em]">{title}</h3><p className="mt-3 max-w-[420px] text-sm leading-6 text-muted-foreground">{text}</p></div>)}</div>
+          </div>
+        </section>
+
+        <section id="contact" className="scroll-mt-28 px-5 py-24 md:px-8 md:py-32">
+          <div className="section-shell grid gap-14 md:grid-cols-[.92fr_1.08fr] md:gap-24">
+            <div><span className="font-mono-custom text-[10px] uppercase tracking-[.2em] text-[var(--blue)]">Let’s make something useful</span><h2 className="mt-6 font-display text-5xl font-bold leading-[.93] tracking-[-.09em] md:text-[5.5rem]">Have a good<br /><span className="text-[var(--pink)]">one in mind?</span></h2><p className="mt-8 max-w-[390px] text-base leading-7 text-muted-foreground">Tell me what you’re building, where it’s stuck, or what you want it to become. I’ll reply at <strong className="text-foreground">tanudevworks@gmail.com</strong>.</p><div className="mt-10 flex flex-wrap gap-3"><a href="https://wa.me/918433553501" target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-full border border-[var(--line)] px-4 py-2.5 text-xs font-semibold transition-colors hover:border-[var(--blue)]"><Phone size={14} /> WhatsApp</a><a href="mailto:tanudevworks@gmail.com" className="flex items-center gap-2 rounded-full border border-[var(--line)] px-4 py-2.5 text-xs font-semibold transition-colors hover:border-[var(--blue)]"><Mail size={14} /> Email directly</a></div></div>
+            <form onSubmit={submitContact} className="rounded-[1.35rem] border border-[var(--line)] bg-card p-6 shadow-[var(--shadow-soft)] md:p-8">
+              <div className="mb-8 flex items-center justify-between"><span className="font-mono-custom text-[10px] uppercase tracking-[.18em] text-muted-foreground">Project enquiry</span><BriefcaseBusiness size={18} className="text-[var(--pink)]" /></div>
+              <div className="grid gap-6 sm:grid-cols-2"><label className="text-xs font-medium">Your name<input required name="name" placeholder="What should I call you?" className="mt-2 w-full border-b border-[var(--line)] bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-foreground" /></label><label className="text-xs font-medium">Your email<input required type="email" name="email" placeholder="you@company.com" className="mt-2 w-full border-b border-[var(--line)] bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-foreground" /></label></div>
+              <label className="mt-7 block text-xs font-medium">What are we making?<textarea required name="message" rows={4} placeholder="A sentence or two is perfect." className="mt-2 w-full resize-none border-b border-[var(--line)] bg-transparent py-3 text-sm outline-none transition-colors placeholder:text-muted-foreground/70 focus:border-foreground" /></label>
+              <div className="mt-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-center"><span className="text-xs text-muted-foreground">{sent ? 'Thanks — your note is ready to send.' : 'Usually replies within 1–2 working days.'}</span><button type="submit" className="group flex items-center justify-center gap-2 rounded-full bg-foreground px-5 py-3.5 text-xs font-semibold text-background transition-transform hover:-translate-y-0.5">{sent ? <Check size={15} /> : <Send size={15} />} {sent ? 'Message noted' : 'Send enquiry'} {!sent && <ArrowUpRight size={14} className="button-arrow" />}</button></div>
+            </form>
+          </div>
+        </section>
+      </main>
+      <footer className="border-t border-[var(--line)] px-5 py-10 md:px-8">
+        <div className="section-shell flex flex-col justify-between gap-8 md:flex-row md:items-end"><div><div className="flex items-center gap-2.5"><span className="flex h-8 w-8 items-center justify-center rounded-[10px] bg-foreground text-background"><span className="font-display text-sm font-extrabold">T.</span></span><span className="text-sm font-semibold tracking-[-.02em]">TanuDeveloper Works</span></div><p className="mt-4 max-w-[270px] text-xs leading-5 text-muted-foreground">Independent full-stack developer and digital creator in Mumbai, India.</p></div><div className="flex flex-wrap items-center gap-5 text-xs text-muted-foreground"><a className="underlined" href="https://www.instagram.com/tanuuuyyyy/" target="_blank" rel="noreferrer"><Instagram size={15} /></a><a className="underlined" href="https://github.com/tanudevworks-web" target="_blank" rel="noreferrer"><Github size={15} /></a><a className="underlined" href="https://www.linkedin.com/in/tanu-tapase/" target="_blank" rel="noreferrer"><Linkedin size={15} /></a><span className="ml-2 border-l border-[var(--line)] pl-5">© 2025 Tanu Tapase</span><button type="button" onClick={() => scrollToId('#top')} className="flex items-center gap-1 font-medium text-foreground">Back to top <ChevronDown size={14} className="rotate-180" /></button></div></div>
+      </footer>
+      {menuToast && <div className="fixed bottom-5 left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 rounded-full border border-[var(--line)] bg-foreground px-4 py-3 text-xs font-medium text-background shadow-[var(--shadow-float)]"><Check size={14} className="text-[var(--pink)]" /> Your enquiry is ready — email Tanu directly to send it.</div>}
     </div>
   );
 }
 
 function Router() {
   return (
-    // Keep a shared shell (sidebar, navbar) outside the boundary so it
-    // survives a page crash.
     <RoutedErrorBoundary>
       <Switch>
         <Route path="/" component={Home} />
